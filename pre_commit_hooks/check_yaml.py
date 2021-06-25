@@ -7,6 +7,83 @@ from typing import Sequence
 
 import ruamel.yaml
 
+class Ref:
+    yaml_tag = u'!Ref:'
+
+    def __init__(self, value, style=None):
+        self.value = value
+        self.style = style
+
+    @classmethod
+    def to_yaml(cls, representer, node):
+        return representer.represent_scalar(cls.yaml_tag,
+                                            u'{.value}'.format(node), node.style)
+
+    @classmethod
+    def from_yaml(cls, constructor, node):
+        return cls(node.value, node.style)
+
+    def __iadd__(self, v):
+        self.value += str(v)
+        return self
+class Sub:
+    yaml_tag = u'!Sub:'
+
+    def __init__(self, value, style=None):
+        self.value = value
+        self.style = style
+
+    @classmethod
+    def to_yaml(cls, representer, node):
+        return representer.represent_scalar(cls.yaml_tag,
+                                            u'{.value}'.format(node), node.style)
+
+    @classmethod
+    def from_yaml(cls, constructor, node):
+        return cls(node.value, node.style)
+
+    def __iadd__(self, v):
+        self.value += str(v)
+        return self
+class GetAtt:
+    yaml_tag = u'!GetAtt:'
+
+    def __init__(self, value, style=None):
+        self.value = value
+        self.style = style
+
+    @classmethod
+    def to_yaml(cls, representer, node):
+        return representer.represent_scalar(cls.yaml_tag,
+                                            u'{.value}'.format(node), node.style)
+
+    @classmethod
+    def from_yaml(cls, constructor, node):
+        return cls(node.value, node.style)
+
+    def __iadd__(self, v):
+        self.value += str(v)
+        return self
+class Join:
+    yaml_tag = u'!Join:'
+
+    def __init__(self, value, style=None):
+        self.value = value
+        self.style = style
+
+    @classmethod
+    def to_yaml(cls, representer, node):
+        return representer.represent_scalar(cls.yaml_tag,
+                                            u'{.value}'.format(node), node.style)
+
+    @classmethod
+    def from_yaml(cls, constructor, node):
+        return cls(node.value, node.style)
+
+    def __iadd__(self, v):
+        self.value += str(v)
+        return self
+
 yaml = ruamel.yaml.YAML(typ='rt')
 yaml.register_class(Ref)
 yaml.register_class(Sub)
