@@ -7,7 +7,11 @@ from typing import Sequence
 
 import ruamel.yaml
 
-yaml = ruamel.yaml.YAML(typ='safe')
+yaml = ruamel.yaml.YAML(typ='rt')
+yaml.register_class(Ref)
+yaml.register_class(Sub)
+yaml.register_class(GetAtt)
+yaml.register_class(Join)
 
 
 def _exhaust(gen: Generator[str, None, None]) -> None:
